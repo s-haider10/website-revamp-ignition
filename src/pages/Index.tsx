@@ -1,32 +1,33 @@
-
-import { useState, useEffect } from 'react';
-import { Moon, Sun, Github, Linkedin, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Navigation from '@/components/Navigation';
-import Hero from '@/components/Hero';
+import { useState, useEffect } from "react";
+import { Moon, Sun, Github, Linkedin, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Navigation from "@/components/Navigation";
+import Hero from "@/components/Hero";
 
 const Index = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     // Check for saved theme preference or default to OS preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
       setIsDark(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
     if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     }
   };
 
@@ -42,7 +43,11 @@ const Index = () => {
             onClick={toggleTheme}
             className="rounded-full hover:bg-muted"
           >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDark ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
           </Button>
         </div>
       </header>
