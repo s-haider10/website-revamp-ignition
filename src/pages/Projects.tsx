@@ -1,64 +1,34 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Github, ExternalLink, FileText } from 'lucide-react';
+import { projects, projectFilters } from '../data/projects';
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('All');
+  const navigate = useNavigate();
 
-  const categories = ['All', 'Quantum Games', 'Finance', 'AI/ML'];
-
-  const projects = [
-    {
-      title: "QGameEngine",
-      category: "Quantum Games",
-      date: "March 2024",
-      tech: ["React", "Python", "Qiskit", "TypeScript"],
-      description: "Interactive quantum computing educational platform with real-time circuit visualization and gamified learning experiences.",
-      links: {
-        github: "https://github.com/s-haider10/qgameengine",
-        demo: "https://qgameengine.vercel.app",
-        paper: "#"
-      },
-      image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop"
-    },
-    {
-      title: "Trading Algorithm Optimizer",
-      category: "Finance",
-      date: "January 2024",
-      tech: ["Python", "NumPy", "Pandas", "Docker"],
-      description: "High-frequency trading algorithm optimization system reducing latency by 40% for institutional trading platforms.",
-      links: {
-        github: "https://github.com/s-haider10/trading-optimizer",
-        demo: "#",
-        paper: "#"
-      },
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=250&fit=crop"
-    },
-    {
-      title: "Neural Network Visualizer",
-      category: "AI/ML",
-      date: "November 2023",
-      tech: ["PyTorch", "D3.js", "Flask", "WebGL"],
-      description: "Real-time neural network architecture visualization tool for educational purposes and research analysis.",
-      links: {
-        github: "https://github.com/s-haider10/nn-visualizer",
-        demo: "https://nn-visualizer.herokuapp.com",
-        paper: "#"
-      },
-      image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop"
-    }
-  ];
-
-  const filteredProjects = activeCategory === 'All' 
+  const filteredProjects = activeFilter === 'All' 
     ? projects 
-    : projects.filter(project => project.category === activeCategory);
+    : projects.filter(project => project.tags.includes(activeFilter));
 
   const handleProjectClick = (project: typeof projects[0]) => {
-    window.open(`/project/${project.title.toLowerCase().replace(/\s+/g, '-')}`, '_blank');
+    navigate(`/project/${project.slug}`);
   };
+
+  // Calculate tag popularity for visualization
+  const tagCounts = projects.reduce((acc, project) => {
+    project.tags.forEach(tag => {
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+    return acc;
+  }, {} as Record<string, number>);
+
+  const maxCount = Math.max(...Object.values(tagCounts));
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
@@ -72,18 +42,43 @@ const Projects = () => {
           </p>
         </div>
         
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={activeCategory === category ? "default" : "outline"}
-              onClick={() => setActiveCategory(category)}
-              className="rounded-full px-6 py-2 font-medium text-sm"
-            >
-              {category}
-            </Button>
-          ))}
+        {/* Tag Visualization */}
+        <div className="mb-8 p-6 bg-muted/20 rounded-lg">
+          <h3 className="text-lg font-semibold mb-4">Popular Topics</h3>
+          <div className="flex flex-wrap gap-3">
+            {Object.entries(tagCounts).map(([tag, count]) => {
+              const intensity = (count / maxCount) * 100;
+              return (
+                <div
+                  key={tag}
+                  className="flex items-center space-x-2 cursor-pointer"
+                  onClick={() => setActiveFilter(tag)}
+                >
+                  <div 
+                    className="w-4 h-4 rounded-full bg-primary"
+                    style={{ opacity: intensity / 100 }}
+                  />
+                  <span className="text-sm">{tag} ({count})</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Filter Dropdown */}
+        <div className="flex justify-center mb-16">
+          <Select value={activeFilter} onValueChange={setActiveFilter}>
+            <SelectTrigger className="w-64">
+              <SelectValue placeholder="Filter by category" />
+            </SelectTrigger>
+            <SelectContent>
+              {projectFilters.map((filter) => (
+                <SelectItem key={filter.tag} value={filter.tag}>
+                  {filter.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Projects Grid */}
@@ -118,7 +113,7 @@ const Projects = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                  {project.description}
+                  {project.excerpt}
                 </p>
                 <div className="flex space-x-2">
                   <Button 
