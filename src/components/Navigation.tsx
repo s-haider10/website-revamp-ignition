@@ -26,7 +26,7 @@ const Navigation = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex space-x-8">
+      <nav className="hidden lg:flex space-x-6 xl:space-x-8">
         {navItems.map((item) => (
           <Link
             key={item.label}
@@ -49,24 +49,25 @@ const Navigation = () => {
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden"
+        className="lg:hidden min-h-[44px] min-w-[44px]"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label="Toggle navigation menu"
       >
         {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </Button>
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-background border-b border-border md:hidden z-50">
-          <nav className="container mx-auto px-4 py-4 space-y-4">
+        <div className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border lg:hidden z-50 shadow-lg">
+          <nav className="container mx-auto px-4 py-6 space-y-4">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
-                className={`block text-sm font-medium transition-colors ${
+                className={`block text-base font-medium transition-colors py-3 px-2 rounded-md min-h-[44px] flex items-center ${
                   isActive(item.href)
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-muted-foreground hover:text-primary hover:bg-muted'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >

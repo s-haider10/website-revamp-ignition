@@ -1,3 +1,4 @@
+
 import { Outlet } from "react-router-dom";
 import { Moon, Sun, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,13 +41,13 @@ const Layout = () => {
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Header with Navigation */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Navigation />
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-full hover:bg-muted"
+            className="rounded-full hover:bg-muted min-h-[44px] min-w-[44px]"
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
             {isDark ? (
@@ -63,14 +64,15 @@ const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 py-12 mt-16 bg-muted/20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex justify-center space-x-8 mb-6">
+      <footer className="border-t border-border/50 py-8 sm:py-12 mt-16 bg-muted/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex justify-center space-x-6 sm:space-x-8 mb-6">
             <a
               href="https://github.com/s-haider10"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted"
+              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="GitHub profile"
             >
               <Github className="h-6 w-6" />
             </a>
@@ -78,22 +80,24 @@ const Layout = () => {
               href="https://linkedin.com/in/haider-tech"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted"
+              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="LinkedIn profile"
             >
               <Linkedin className="h-6 w-6" />
             </a>
             <a
               href="mailto:sh6070@nyu.edu"
-              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted"
+              className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-muted min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="Send email"
             >
               <Mail className="h-6 w-6" />
             </a>
           </div>
-          <p className="text-sm text-muted-foreground font-mono">
+          <p className="text-xs sm:text-sm text-muted-foreground font-mono px-4">
             "Somewhere, something incredible is waiting to be known." - Carl
             Sagan
           </p>
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-2">
             © {new Date().getFullYear()} Haider. All rights reserved.
           </p>
         </div>

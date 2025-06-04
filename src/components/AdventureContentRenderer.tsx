@@ -15,10 +15,10 @@ const AdventureContentRenderer = ({ content }: AdventureContentRendererProps) =>
           <HeadingTag 
             key={index} 
             className={`font-bold mb-4 mt-8 ${
-              item.level === 1 ? 'text-4xl' :
-              item.level === 2 ? 'text-3xl' :
-              item.level === 3 ? 'text-2xl' :
-              item.level === 4 ? 'text-xl' : 'text-lg'
+              item.level === 1 ? 'text-2xl sm:text-3xl lg:text-4xl' :
+              item.level === 2 ? 'text-xl sm:text-2xl lg:text-3xl' :
+              item.level === 3 ? 'text-lg sm:text-xl lg:text-2xl' :
+              item.level === 4 ? 'text-base sm:text-lg lg:text-xl' : 'text-sm sm:text-base lg:text-lg'
             }`}
           >
             {item.content}
@@ -29,7 +29,7 @@ const AdventureContentRenderer = ({ content }: AdventureContentRendererProps) =>
         return (
           <div 
             key={index} 
-            className="prose prose-lg max-w-none mb-6 text-foreground leading-relaxed"
+            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-6 text-foreground leading-relaxed"
             dangerouslySetInnerHTML={{ 
               __html: item.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                    .replace(/\n/g, '<br/>')
@@ -39,14 +39,14 @@ const AdventureContentRenderer = ({ content }: AdventureContentRendererProps) =>
       
       case 'image':
         return (
-          <figure key={index} className="my-8">
+          <figure key={index} className="my-6 sm:my-8">
             <img
               src={item.content}
               alt={item.caption || 'Adventure image'}
               className="w-full rounded-lg shadow-lg"
             />
             {item.caption && (
-              <figcaption className="text-center text-sm text-muted-foreground mt-2 italic">
+              <figcaption className="text-center text-xs sm:text-sm text-muted-foreground mt-2 italic">
                 {item.caption}
               </figcaption>
             )}
@@ -76,8 +76,8 @@ const AdventureContentRenderer = ({ content }: AdventureContentRendererProps) =>
       
       case 'quote':
         return (
-          <blockquote key={index} className="border-l-4 border-orange-500 pl-6 py-4 my-6 bg-orange-50 dark:bg-orange-950/20 rounded-r-lg">
-            <p className="text-lg italic text-foreground/90">
+          <blockquote key={index} className="border-l-4 border-primary pl-4 sm:pl-6 py-4 my-6 bg-primary/5 rounded-r-lg">
+            <p className="text-base sm:text-lg italic text-foreground/90">
               "{item.content}"
             </p>
           </blockquote>
