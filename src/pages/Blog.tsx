@@ -1,80 +1,23 @@
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ArrowRight, Calendar } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Clock, ArrowRight, Calendar, Filter } from "lucide-react";
+import { blogPosts, blogFilters } from "../data/blogPosts";
 
 const Blog = () => {
-  const blogPosts = [
-    {
-      title: "Understanding Quantum Supremacy: A Practical Guide",
-      excerpt:
-        "Exploring the implications of quantum supremacy and what it means for the future of computing. A deep dive into current achievements and future possibilities in quantum research.",
-      date: "2024-02-15",
-      readTime: "8 min read",
-      category: "Quantum Computing",
-      image:
-        "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=200&fit=crop",
-      slug: "quantum-supremacy-guide",
-    },
-    {
-      title: "Building Scalable Trading Systems with Python",
-      excerpt:
-        "How I optimized high-frequency trading algorithms at Goldman Sachs, reducing latency and improving performance through modern Python techniques and architectural patterns.",
-      date: "2024-01-28",
-      readTime: "12 min read",
-      category: "Finance Tech",
-      image:
-        "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=200&fit=crop",
-      slug: "scalable-trading-systems",
-    },
-    {
-      title: "The Future of AI in Education: Interactive Learning",
-      excerpt:
-        "Examining how interactive AI tools are revolutionizing education, with insights from building QGameEngine and other educational platforms that bridge theory and practice.",
-      date: "2024-01-10",
-      readTime: "6 min read",
-      category: "AI/ML",
-      image:
-        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop",
-      slug: "ai-education-future",
-    },
-    {
-      title: "From Academia to Industry: Lessons Learned",
-      excerpt:
-        "Reflections on transitioning between academic research and industry applications, including key insights on building products that matter and scaling impact.",
-      date: "2023-12-05",
-      readTime: "10 min read",
-      category: "Career",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop",
-      slug: "academia-to-industry",
-    },
-    {
-      title: "Quantum Machine Learning: State of the Art 2024",
-      excerpt:
-        "A comprehensive review of recent advances in quantum machine learning, including practical implementations and potential commercial applications.",
-      date: "2023-11-20",
-      readTime: "15 min read",
-      category: "Quantum Computing",
-      image:
-        "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=200&fit=crop",
-      slug: "qml-state-of-art-2024",
-    },
-    {
-      title: "Building YC-Quality Products: Technical Excellence",
-      excerpt:
-        "Key principles for building technically excellent products that scale, drawn from experience with successful startups and research-to-product transitions.",
-      date: "2023-10-15",
-      readTime: "9 min read",
-      category: "Startups",
-      image:
-        "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=200&fit=crop",
-      slug: "yc-quality-products",
-    },
-  ];
+  const [selectedTag, setSelectedTag] = useState("All");
+  const navigate = useNavigate();
 
-  const handlePostClick = (post: (typeof blogPosts)[0]) => {
-    window.open(`/blog/${post.slug}`, "_blank");
+  const filteredPosts = selectedTag === "All" 
+    ? blogPosts 
+    : blogPosts.filter(post => post.tags.includes(selectedTag));
+
+  const handlePostClick = (slug: string) => {
+    navigate(`/blog/${slug}`);
   };
 
   return (
@@ -91,12 +34,33 @@ const Blog = () => {
           </p>
         </div>
 
+        {/* Filter Section */}
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center space-x-2">
+            <Filter className="h-5 w-5 text-muted-foreground" />
+            <span className="text-sm font-medium">Filter by topic:</span>
+          </div>
+          <Select value={selectedTag} onValueChange={setSelectedTag}>
+            <SelectTrigger className="w-48">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {blogFilters.map((filter) => (
+                <SelectItem key={filter.tag} value={filter.tag}>
+                  {filter.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Posts Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post, index) => (
+          {filteredPosts.map((post) => (
             <Card
-              key={index}
+              key={post.id}
               className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/20"
-              onClick={() => handlePostClick(post)}
+              onClick={() => handlePostClick(post.slug)}
             >
               <div className="aspect-video overflow-hidden">
                 <img
@@ -108,9 +72,13 @@ const Blog = () => {
 
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between mb-3">
-                  <Badge variant="secondary" className="text-xs font-medium">
-                    {post.category}
-                  </Badge>
+                  <div className="flex flex-wrap gap-1">
+                    {post.tags.slice(0, 2).map((tag) => (
+                      <Badge key={tag} variant="secondary" className="text-xs font-medium">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                   <div className="flex items-center text-xs text-muted-foreground font-mono">
                     <Clock className="h-3 w-3 mr-1" />
                     {post.readTime}
@@ -147,6 +115,19 @@ const Blog = () => {
             </Card>
           ))}
         </div>
+
+        {/* No Posts Found */}
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-16">
+            <h3 className="text-2xl font-bold mb-4">No posts found</h3>
+            <p className="text-muted-foreground mb-6">
+              No blog posts match the selected filter. Try selecting a different topic.
+            </p>
+            <Button variant="outline" onClick={() => setSelectedTag("All")}>
+              Show All Posts
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
