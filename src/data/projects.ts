@@ -1,5 +1,4 @@
-
-import { Project } from '../types/project';
+import { Project, ProjectFilter } from '../types/project';
 
 export const projects: Project[] = [
   {
