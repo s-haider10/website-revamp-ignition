@@ -1,15 +1,20 @@
 
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Download, FileText, Briefcase } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar, Download, FileText, Briefcase, Filter } from 'lucide-react';
 
 const Experience = () => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('both');
+
   const experiences = [
     {
       period: "2023 - Present",
       company: "NYU Quantum Research Lab",
       logo: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=50&h=50&fit=crop",
       title: "Graduate Research Assistant",
+      tag: "academic",
       achievements: [
         "Developed novel quantum algorithms reducing computational complexity by 35%",
         "Published 2 papers in peer-reviewed journals on quantum machine learning",
@@ -21,6 +26,7 @@ const Experience = () => {
       company: "Goldman Sachs",
       logo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=50&h=50&fit=crop",
       title: "Software Engineering Intern",
+      tag: "industry",
       achievements: [
         "Optimized high-frequency trading algorithms reducing latency by 40%",
         "Built real-time risk monitoring dashboard using React and Python",
@@ -32,6 +38,7 @@ const Experience = () => {
       company: "NYU Computer Science Department",
       logo: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=50&h=50&fit=crop",
       title: "Teaching Assistant",
+      tag: "academic",
       achievements: [
         "TA for Data Structures and Algorithms (CS 201) - 150+ students",
         "Designed interactive coding exercises improving student engagement by 60%",
@@ -43,6 +50,7 @@ const Experience = () => {
       company: "TechStart Innovations",
       logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=50&h=50&fit=crop",
       title: "Junior Software Developer",
+      tag: "industry",
       achievements: [
         "Developed full-stack web applications using MERN stack",
         "Implemented CI/CD pipelines reducing deployment time by 50%",
@@ -51,11 +59,14 @@ const Experience = () => {
     }
   ];
 
+  const filteredExperiences = experiences.filter(exp => {
+    if (selectedFilter === 'both') return true;
+    return exp.tag === selectedFilter;
+  });
+
   const downloadCV = (type: 'academic' | 'industry') => {
-    // In a real implementation, you would serve actual PDF files
     const filename = type === 'academic' ? 'Saad_Haider_Academic_CV.pdf' : 'Saad_Haider_Industry_Resume.pdf';
     console.log(`Downloading ${filename}`);
-    // Simulate download - replace with actual file URLs
     window.open(`/cvs/${filename}`, '_blank');
   };
 
@@ -69,6 +80,24 @@ const Experience = () => {
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
             From quantum research to financial technology, building impactful solutions across diverse domains.
           </p>
+          
+          {/* Filter Section */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <div className="flex items-center space-x-2">
+              <Filter className="h-5 w-5 text-muted-foreground" />
+              <span className="text-sm font-medium text-muted-foreground">Filter by:</span>
+            </div>
+            <Select value={selectedFilter} onValueChange={setSelectedFilter}>
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Select experience type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="both">Both</SelectItem>
+                <SelectItem value="academic">Academic</SelectItem>
+                <SelectItem value="industry">Industry</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           
           {/* CV Download Section */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 p-6 bg-muted/30 rounded-lg border border-border/50">
@@ -102,7 +131,7 @@ const Experience = () => {
           <div className="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-primary/20"></div>
           
           <div className="space-y-16">
-            {experiences.map((exp, index) => (
+            {filteredExperiences.map((exp, index) => (
               <div
                 key={index}
                 className={`relative flex items-center ${
@@ -125,6 +154,13 @@ const Experience = () => {
                         <div>
                           <h3 className="font-bold text-xl text-foreground">{exp.company}</h3>
                           <p className="text-primary font-semibold text-lg">{exp.title}</p>
+                          <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full mt-2 ${
+                            exp.tag === 'academic' 
+                              ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
+                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          }`}>
+                            {exp.tag === 'academic' ? 'Academic' : 'Industry'}
+                          </span>
                         </div>
                       </div>
                       
