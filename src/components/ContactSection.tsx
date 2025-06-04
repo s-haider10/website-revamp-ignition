@@ -1,18 +1,17 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Github, Linkedin, Mail, Send, MapPin } from 'lucide-react';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Github, Linkedin, Mail, Send, MapPin, Twitter } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
   const { toast } = useToast();
 
@@ -23,13 +22,15 @@ const ContactSection = () => {
       title: "Message sent!",
       description: "Thank you for your message. I'll get back to you soon.",
     });
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({ name: "", email: "", message: "" });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -39,7 +40,8 @@ const ContactSection = () => {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Interested in collaborating on innovative projects? Let's discuss how we can work together.
+            Interested in collaborating on innovative projects? Let's discuss
+            how we can work together.
           </p>
         </div>
 
@@ -57,10 +59,10 @@ const ContactSection = () => {
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Email</p>
                   <a
-                    href="mailto:saad.haider@nyu.edu"
+                    href="mailto:sh6070@nyu.edu"
                     className="text-primary hover:underline font-medium"
                   >
-                    saad.haider@nyu.edu
+                    sh6070@nyu.edu
                   </a>
                 </div>
                 <div>
@@ -93,13 +95,24 @@ const ContactSection = () => {
                   </Button>
                   <Button variant="outline" size="lg" asChild>
                     <a
-                      href="https://linkedin.com/in/yourprofile"
+                      href="https://linkedin.com/in/haider-tech"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center"
                     >
                       <Linkedin className="h-5 w-5 mr-2" />
                       LinkedIn
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="lg" asChild>
+                    <a
+                      href="https://twitter.com/s__haider1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center"
+                    >
+                      <Twitter className="h-5 w-5 mr-3" />X (Twitter) -
+                      @s__haider1
                     </a>
                   </Button>
                 </div>
@@ -126,7 +139,7 @@ const ContactSection = () => {
                     className="mt-1"
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="email">Email *</Label>
                   <Input
@@ -139,7 +152,7 @@ const ContactSection = () => {
                     className="mt-1"
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="message">Message *</Label>
                   <Textarea
@@ -153,7 +166,7 @@ const ContactSection = () => {
                     placeholder="Tell me about your project or how we can collaborate..."
                   />
                 </div>
-                
+
                 <Button type="submit" className="w-full">
                   <Send className="h-4 w-4 mr-2" />
                   Send Message

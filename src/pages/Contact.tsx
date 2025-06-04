@@ -1,35 +1,87 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Github, Linkedin, Mail, Send, MapPin, Calendar } from 'lucide-react';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Send,
+  MapPin,
+  Calendar,
+  Twitter,
+} from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent successfully!",
-      description: "Thank you for reaching out. I'll get back to you within 24 hours.",
-    });
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(
+          "4dc34bd5134f77391904c57a3829b587"
+        )}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            _template: "table",
+            _captcha: "false",
+            _replyto: formData.email, // Auto-reply to sender
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success === "true") {
+        toast({
+          title: "Message sent successfully!",
+          description:
+            "Thank you for reaching out. I'll get back to you within 24 hours.",
+        });
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          "Message failed to send. Please email me directly at saad.haider@nyu.edu",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -41,8 +93,9 @@ const Contact = () => {
             Let's Connect
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Interested in collaborating on cutting-edge research, discussing innovative projects, 
-            or exploring opportunities at the intersection of technology and impact? Let's talk.
+            Interested in collaborating on cutting-edge research, discussing
+            innovative projects, or exploring opportunities at the intersection
+            of technology and impact? Let's talk.
           </p>
         </div>
 
@@ -58,23 +111,29 @@ const Contact = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2 font-medium">Email</p>
+                  <p className="text-sm text-muted-foreground mb-2 font-medium">
+                    Email
+                  </p>
                   <a
                     href="mailto:saad.haider@nyu.edu"
                     className="text-primary hover:underline font-mono text-lg"
                   >
-                    saad.haider@nyu.edu
+                    sh6070@nyu.edu
                   </a>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2 font-medium">Location</p>
+                  <p className="text-sm text-muted-foreground mb-2 font-medium">
+                    Location
+                  </p>
                   <div className="flex items-center text-foreground">
                     <MapPin className="h-4 w-4 mr-2 text-primary" />
                     New York, NY
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2 font-medium">Response Time</p>
+                  <p className="text-sm text-muted-foreground mb-2 font-medium">
+                    Response Time
+                  </p>
                   <div className="flex items-center text-foreground">
                     <Calendar className="h-4 w-4 mr-2 text-primary" />
                     Within 24 hours
@@ -86,11 +145,16 @@ const Contact = () => {
             {/* Social Links */}
             <Card className="border-border/50">
               <CardHeader>
-                <CardTitle className="text-xl">Professional Networks</CardTitle>
+                <CardTitle className="text-xl">Socials</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <Button variant="outline" size="lg" className="w-full justify-start" asChild>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full justify-start"
+                    asChild
+                  >
                     <a
                       href="https://github.com/s-haider10"
                       target="_blank"
@@ -100,14 +164,36 @@ const Contact = () => {
                       GitHub - @s-haider10
                     </a>
                   </Button>
-                  <Button variant="outline" size="lg" className="w-full justify-start" asChild>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full justify-start"
+                    asChild
+                  >
                     <a
-                      href="https://linkedin.com/in/yourprofile"
+                      href="https://www.linkedin.com/in/haider-tech/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <Linkedin className="h-5 w-5 mr-3" />
                       LinkedIn - Connect
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full justify-start"
+                    asChild
+                  >
+                    <a
+                      href="https://twitter.com/s__haider1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="inline-flex items-center">
+                        <Twitter className="h-5 w-5 mr-3" />X (Twitter) -
+                        @s__haider1
+                      </span>
                     </a>
                   </Button>
                 </div>
@@ -121,14 +207,17 @@ const Contact = () => {
               <CardHeader>
                 <CardTitle className="text-xl">Send a Message</CardTitle>
                 <p className="text-muted-foreground">
-                  Whether it's about research collaboration, startup opportunities, or technical discussions.
+                  Whether it's about research collaboration, startup
+                  opportunities, or technical discussions.
                 </p>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="name" className="text-sm font-medium">Name *</Label>
+                      <Label htmlFor="name" className="text-sm font-medium">
+                        Name *
+                      </Label>
                       <Input
                         id="name"
                         name="name"
@@ -140,9 +229,11 @@ const Contact = () => {
                         placeholder="Your full name"
                       />
                     </div>
-                    
+
                     <div>
-                      <Label htmlFor="email" className="text-sm font-medium">Email *</Label>
+                      <Label htmlFor="email" className="text-sm font-medium">
+                        Email *
+                      </Label>
                       <Input
                         id="email"
                         name="email"
@@ -155,9 +246,11 @@ const Contact = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
-                    <Label htmlFor="subject" className="text-sm font-medium">Subject *</Label>
+                    <Label htmlFor="subject" className="text-sm font-medium">
+                      Subject *
+                    </Label>
                     <Input
                       id="subject"
                       name="subject"
@@ -169,9 +262,11 @@ const Contact = () => {
                       placeholder="What would you like to discuss?"
                     />
                   </div>
-                  
+
                   <div>
-                    <Label htmlFor="message" className="text-sm font-medium">Message *</Label>
+                    <Label htmlFor="message" className="text-sm font-medium">
+                      Message *
+                    </Label>
                     <Textarea
                       id="message"
                       name="message"
@@ -183,10 +278,20 @@ const Contact = () => {
                       placeholder="Tell me about your project, research interest, or how we can collaborate..."
                     />
                   </div>
-                  
-                  <Button type="submit" className="w-full py-3 text-base font-medium">
-                    <Send className="h-4 w-4 mr-2" />
-                    Send Message
+
+                  <Button
+                    type="submit"
+                    className="w-full py-3 text-base font-medium"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </CardContent>
