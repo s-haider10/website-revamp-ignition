@@ -1,16 +1,23 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Calendar, User, Github, ExternalLink, FileText } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  Calendar,
+  User,
+  Github,
+  ExternalLink,
+  FileText,
+} from "lucide-react";
 import ProjectContentRenderer from "../components/ProjectContentRenderer";
 
 const ProjectPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  
-  const project = projects.find(p => p.slug === slug);
+
+  const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
     return (
@@ -20,7 +27,7 @@ const ProjectPage = () => {
           <p className="text-muted-foreground mb-8">
             The project you're looking for doesn't exist.
           </p>
-          <Button onClick={() => navigate('/projects')}>
+          <Button onClick={() => navigate("/projects")}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Projects
           </Button>
@@ -33,9 +40,9 @@ const ProjectPage = () => {
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container mx-auto max-w-4xl px-4">
         {/* Back Button */}
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/projects')}
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/projects")}
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -56,7 +63,7 @@ const ProjectPage = () => {
           <h1 className="text-4xl font-bold mb-4 leading-tight">
             {project.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center">
               <User className="h-4 w-4 mr-1" />
@@ -64,10 +71,10 @@ const ProjectPage = () => {
             </div>
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-1" />
-              {new Date(project.date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+              {new Date(project.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </div>
             <div className="flex items-center">
@@ -94,19 +101,31 @@ const ProjectPage = () => {
 
           <div className="flex space-x-2 mb-6">
             <Button size="sm" variant="outline" asChild>
-              <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+              <a
+                href={project.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="h-4 w-4 mr-1" />
                 Code
               </a>
             </Button>
             <Button size="sm" variant="outline" asChild>
-              <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
+              <a
+                href={project.links.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <ExternalLink className="h-4 w-4 mr-1" />
                 Demo
               </a>
             </Button>
             <Button size="sm" variant="outline" asChild>
-              <a href={project.links.paper} target="_blank" rel="noopener noreferrer">
+              <a
+                href={project.links.paper}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FileText className="h-4 w-4 mr-1" />
                 Paper
               </a>
@@ -135,13 +154,11 @@ const ProjectPage = () => {
               <div>
                 <p className="font-medium">{project.author.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  NYU Graduate | Full-Stack Developer
+                  NYU CS & Math | AI Engineer
                 </p>
               </div>
             </div>
-            <Button onClick={() => navigate('/projects')}>
-              More Projects
-            </Button>
+            <Button onClick={() => navigate("/projects")}>More Projects</Button>
           </div>
         </footer>
       </div>

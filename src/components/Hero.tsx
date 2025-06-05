@@ -44,9 +44,9 @@ const Hero = () => {
           <div className="mb-12 flex justify-center">
             <div className="relative">
               <img
-                src="profile.jpg"
+                src="favicon.ico"
                 alt="Syed Ali Haider"
-                className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-primary/20 shadow-2xl object-cover"
+                className="w-40 h-40 md:w-48 md:h-48 object-cover"
               />
             </div>
           </div>
@@ -55,12 +55,15 @@ const Hero = () => {
             Syed Ali Haider
           </h1>
 
-          <div className="text-xl md:text-2xl text-muted-foreground mb-4 space-y-2">
+          <div className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-4 space-y-2">
             {" "}
             {/* Reduced mb-8 to mb-4 */}
-            <p className="font-mono">NYU '24 | Computer Science</p>
-            <p className="font-medium">
-              Quantum Computing • Financial Technology • AI Research
+            <p className="font-mono">NYU '25 → Dartmouth '26</p>
+            <p className="font-normal text-neutral-500 dark:text-neutral-500">
+              <span className="mt-1 text-sm uppercase tracking-widest text-neutral-400">
+                {" "}
+                Explorer | AI Researcher | AI OPS x Infra Engineer
+              </span>
             </p>
           </div>
         </div>
@@ -127,21 +130,21 @@ const Hero = () => {
           {/* Quick stats */}
           <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">15+</div>
-              <div className="text-muted-foreground font-medium">
-                Research Papers
-              </div>
+              <div className="text-3xl font-bold text-primary mb-2">10+</div>
+              <div className="text-muted-foreground font-medium">Projects</div>
             </div>
+
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">5+</div>
-              <div className="text-muted-foreground font-medium">
-                Open Source Projects
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">2</div>
+              <div className="text-3xl font-bold text-primary mb-2">5</div>
               <div className="text-muted-foreground font-medium">
                 Industry Internships
+              </div>
+            </div>
+
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">4</div>
+              <div className="text-muted-foreground font-medium">
+                Research Papers
               </div>
             </div>
           </div>

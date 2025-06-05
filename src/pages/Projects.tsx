@@ -1,28 +1,34 @@
-
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Github, ExternalLink, FileText } from 'lucide-react';
-import { projects, projectFilters } from '../data/projects';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Github, ExternalLink, FileText } from "lucide-react";
+import { projects, projectFilters } from "../data/projects";
 
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState("All");
   const navigate = useNavigate();
 
-  const filteredProjects = activeFilter === 'All' 
-    ? projects 
-    : projects.filter(project => project.tags.includes(activeFilter));
+  const filteredProjects =
+    activeFilter === "All"
+      ? projects
+      : projects.filter((project) => project.tags.includes(activeFilter));
 
-  const handleProjectClick = (project: typeof projects[0]) => {
+  const handleProjectClick = (project: (typeof projects)[0]) => {
     navigate(`/project/${project.slug}`);
   };
 
   // Calculate tag popularity for visualization
   const tagCounts = projects.reduce((acc, project) => {
-    project.tags.forEach(tag => {
+    project.tags.forEach((tag) => {
       acc[tag] = (acc[tag] || 0) + 1;
     });
     return acc;
@@ -38,10 +44,10 @@ const Projects = () => {
             Featured Projects
           </h1>
           <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed">
-            Building scalable solutions at the intersection of quantum computing, financial technology, and artificial intelligence.
+            Shipping, breaking, and sometimes even improving things.
           </p>
         </div>
-        
+
         {/* Tag Visualization */}
         <div className="mb-8 p-6 bg-muted/20 rounded-lg">
           <h3 className="text-lg font-semibold mb-4">Popular Topics</h3>
@@ -54,11 +60,13 @@ const Projects = () => {
                   className="flex items-center space-x-2 cursor-pointer"
                   onClick={() => setActiveFilter(tag)}
                 >
-                  <div 
+                  <div
                     className="w-4 h-4 rounded-full bg-primary"
                     style={{ opacity: intensity / 100 }}
                   />
-                  <span className="text-sm">{tag} ({count})</span>
+                  <span className="text-sm">
+                    {tag} ({count})
+                  </span>
                 </div>
               );
             })}
@@ -84,8 +92,8 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project, index) => (
-            <Card 
-              key={index} 
+            <Card
+              key={index}
               className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/20"
               onClick={() => handleProjectClick(project)}
             >
@@ -101,11 +109,17 @@ const Projects = () => {
                   <CardTitle className="text-xl font-semibold group-hover:text-primary transition-colors">
                     {project.title}
                   </CardTitle>
-                  <span className="text-sm text-muted-foreground font-mono">{project.date}</span>
+                  <span className="text-sm text-muted-foreground font-mono">
+                    {project.date}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {project.tech.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-xs font-medium">
+                    <Badge
+                      key={tech}
+                      variant="secondary"
+                      className="text-xs font-medium"
+                    >
                       {tech}
                     </Badge>
                   ))}
@@ -116,37 +130,37 @@ const Projects = () => {
                   {project.excerpt}
                 </p>
                 <div className="flex space-x-2">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     className="flex-1"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(project.links.github, '_blank');
+                      window.open(project.links.github, "_blank");
                     }}
                   >
                     <Github className="h-4 w-4 mr-1" />
                     Code
                   </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     className="flex-1"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(project.links.demo, '_blank');
+                      window.open(project.links.demo, "_blank");
                     }}
                   >
                     <ExternalLink className="h-4 w-4 mr-1" />
                     Demo
                   </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     className="flex-1"
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(project.links.paper, '_blank');
+                      window.open(project.links.paper, "_blank");
                     }}
                   >
                     <FileText className="h-4 w-4 mr-1" />

@@ -17,6 +17,8 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
+/* Then use font-space-grotesk */
 
 @keyframes logo-spin {
   from {

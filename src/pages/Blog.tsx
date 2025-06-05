@@ -1,26 +1,35 @@
-
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, Clock, User } from 'lucide-react';
-import { blogPosts } from '../data/blogPosts';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Calendar, Clock, User } from "lucide-react";
+import { blogPosts } from "../data/blogPosts";
 
 const Blog = () => {
-  const [selectedTag, setSelectedTag] = useState('All');
+  const [selectedTag, setSelectedTag] = useState("All");
   const navigate = useNavigate();
 
   // Get all unique tags
-  const allTags = ['All', ...Array.from(new Set(blogPosts.flatMap(post => post.tags)))];
-  
-  const filteredPosts = selectedTag === 'All' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.tags.includes(selectedTag));
+  const allTags = [
+    "All",
+    ...Array.from(new Set(blogPosts.flatMap((post) => post.tags))),
+  ];
+
+  const filteredPosts =
+    selectedTag === "All"
+      ? blogPosts
+      : blogPosts.filter((post) => post.tags.includes(selectedTag));
 
   // Calculate tag popularity for visualization
   const tagCounts = blogPosts.reduce((acc, post) => {
-    post.tags.forEach(tag => {
+    post.tags.forEach((tag) => {
       acc[tag] = (acc[tag] || 0) + 1;
     });
     return acc;
@@ -33,11 +42,9 @@ const Blog = () => {
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mb-12">
           <h1 className="text-5xl font-bold mb-4 text-center bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Blog & Research
+            Op-eds and Insights
           </h1>
-          <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed">
-            Exploring the frontiers of quantum computing, fintech innovation, and artificial intelligence through research and practical applications.
-          </p>
+          <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed"></p>
         </div>
 
         {/* Tag Visualization */}
@@ -52,17 +59,19 @@ const Blog = () => {
                   className="flex items-center space-x-2 cursor-pointer"
                   onClick={() => setSelectedTag(tag)}
                 >
-                  <div 
+                  <div
                     className="w-4 h-4 rounded-full bg-primary"
                     style={{ opacity: intensity / 100 }}
                   />
-                  <span className="text-sm">{tag} ({count})</span>
+                  <span className="text-sm">
+                    {tag} ({count})
+                  </span>
                 </div>
               );
             })}
           </div>
         </div>
-        
+
         {/* Filter Dropdown */}
         <div className="flex justify-center mb-16">
           <Select value={selectedTag} onValueChange={setSelectedTag}>
@@ -72,7 +81,7 @@ const Blog = () => {
             <SelectContent>
               {allTags.map((tag) => (
                 <SelectItem key={tag} value={tag}>
-                  {tag === 'All' ? 'All Posts' : tag}
+                  {tag === "All" ? "All Posts" : tag}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -82,8 +91,8 @@ const Blog = () => {
         {/* Blog Posts Grid */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredPosts.map((post) => (
-            <Card 
-              key={post.id} 
+            <Card
+              key={post.id}
               className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/20"
               onClick={() => navigate(`/blog/${post.slug}`)}
             >
