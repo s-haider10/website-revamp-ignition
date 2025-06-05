@@ -41,7 +41,7 @@ const Projects = () => {
       <div className="container mx-auto max-w-6xl px-4">
         <div className="mb-12">
           <h1 className="text-5xl font-bold mb-4 text-center bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Featured Projects
+            Projects
           </h1>
           <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed">
             Shipping, breaking, and sometimes even improving things.
@@ -50,7 +50,7 @@ const Projects = () => {
 
         {/* Tag Visualization */}
         <div className="mb-8 p-6 bg-muted/20 rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">Popular Topics</h3>
+          <h3 className="text-lg font-semibold mb-4">🚀</h3>
           <div className="flex flex-wrap gap-3">
             {Object.entries(tagCounts).map(([tag, count]) => {
               const intensity = (count / maxCount) * 100;

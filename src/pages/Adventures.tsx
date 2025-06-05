@@ -60,7 +60,7 @@ const Adventures = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-primary/2 to-background pt-20 sm:pt-24 pb-16">
+    <div className="min-h-screen  pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 text-center">
@@ -78,10 +78,10 @@ const Adventures = () => {
         </div>
 
         {/* Tag Visualization */}
-        <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-lg border border-primary/20">
+        <div className="mb-8 p-6 bg-muted/20 rounded-lg">
           <h3 className="text-base sm:text-lg font-semibold mb-4 flex items-center">
             <Mountain className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-primary" />
-            Popular Adventure Types
+            Vibe
           </h3>
           <div className="flex flex-wrap gap-2 sm:gap-3">
             {Object.entries(tagCounts).map(([tag, count]) => {

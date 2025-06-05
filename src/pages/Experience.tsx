@@ -10,16 +10,46 @@ import {
 } from "@/components/ui/select";
 import { Calendar, Download, FileText, Briefcase, Filter } from "lucide-react";
 
-const Experience = () => {
+export default function Experience() {
   const [selectedFilter, setSelectedFilter] = useState<string>("both");
 
   const experiences = [
     {
-      period: "Jul '24 - Sep '24",
-      company: "Khudi Ventures",
-      logo: "khudi.jpg", // Replace with actual path
-      title: "Research Engineer Intern (RecSys)",
+      period: "Jun 2025 - Present",
+      company: "Intellia Advisors",
+      logo: "intellia_logo.jpeg",
+      title: "AI/ML Engineer",
       tag: "industry",
+      category: "Startup",
+      achievements: [
+        "Joined core AI team at VC-backed (Gobi) startup reinventing consulting with AI",
+        "Reporting directly to CTO; building RAG pipelines, fine-tuning LLMs, and scaling real-time inference infra",
+        "Enabling AI-driven research, slide deck automation, and data prioritization to accelerate strategic insights in strat and finance",
+      ],
+    },
+
+    {
+      period: "May 2025 - Present",
+      company: "Gobi Partners ",
+      logo: "gobi-logo.jpg",
+      title: "Spark Fellow",
+      tag: "industry",
+      category: "VC",
+      achievements: [
+        "Selected as 1 of 12 fellows from 2,000+ applicants (Top 0.6%)",
+        "Product and AI/ML innovation track, working directly with portfolio startups",
+        "Engaged in weekly roundtables with leading Pakistani founders and GPs",
+        "Trained in venture capital, fundraising mechanics, and early-stage startup operations",
+        "Positioned at the intersection of VC and frontier tech — bridging Silicon Valley playbooks with on-the-ground execution",
+      ],
+    },
+    {
+      period: "Jul '24 - Sep '24",
+      company: "Khudi Ventures ",
+      logo: "khudi.jpg", // Replace with actual path
+      title: "ML Engineer (RecSys)",
+      tag: "industry",
+      category: "VC",
       achievements: [
         "Built matching algorithm for matrimony app → 10% engagement lift",
         "Deployed RL+NLP system with Gale-Shapley optimization for 10M+ users",
@@ -30,8 +60,9 @@ const Experience = () => {
       period: "May '24 - Jul '24",
       company: "Reckitt Benckiser",
       logo: "reckitt.png",
-      title: "Data Science Intern (MENA IT&D)",
+      title: "Data Science Intern ",
       tag: "industry",
+      category: "Fortune 500",
       achievements: [
         "Shipped predictive pricing models with 97.93% accuracy (XGBoost/ensemble)",
         "Productionized sales forecasting and price elasticity models for MENA region",
@@ -44,6 +75,7 @@ const Experience = () => {
       logo: "nyu.png",
       title: "Research Assistant ",
       tag: "academic",
+      category: "Research Lab",
       achievements: [
         "Architected multimodal ed-tech chatbot with audio/vision sentiment analysis",
         "Implemented knowledge retrieval pipeline boosting context awareness by 40%",
@@ -57,6 +89,7 @@ const Experience = () => {
       logo: "nyu.png",
       title: "Research Assistant",
       tag: "academic",
+      category: "Research Lab",
       achievements: [
         "Extended quantum Prisoner's Dilemma to n-player settings",
         "Developed strategies outperforming Nash equilibrium",
@@ -70,6 +103,7 @@ const Experience = () => {
       logo: "nyu.png",
       title: "Research Assistant",
       tag: "academic",
+      category: "Research Lab",
       achievements: [
         "Engineered hybrid VQA model (MAE ViT + BERT) with cross-attention",
         "Achieved 2.37% accuracy gain on COCO via LoRA fine-tuning",
@@ -82,6 +116,7 @@ const Experience = () => {
       logo: "stern.jpg",
       title: "Research Assistant (Prof. Divya Singhvi)",
       tag: "academic",
+      category: "Research Lab",
       achievements: [
         "Built RL-based 'nudge' system reducing churn in longitudinal study",
         "Implemented clustering on panel data for behavior segmentation",
@@ -94,6 +129,7 @@ const Experience = () => {
       logo: "listen.jpeg",
       title: "Software Engineer Intern",
       tag: "industry",
+      category: "Startup",
       achievements: [
         "Created live cybersecurity monitor processing 20k+ supply chain attacks",
         "Designed GPT Turbo + LangChain pipeline for attack summarization",
@@ -106,6 +142,7 @@ const Experience = () => {
       logo: "ima.png",
       title: "Research Assistant (Prof. Nicole Wang)",
       tag: "academic",
+      category: "Research Lab",
       achievements: [
         "Developed LLM-based Gen-AI grader (GPT-4 Turbo + MongoDB)",
         "Automated grading for 500+ student submissions with 92% accuracy",
@@ -118,6 +155,7 @@ const Experience = () => {
       logo: "jika.jpeg", // Replace with actual path
       title: "Data Engineer Intern",
       tag: "industry",
+      category: "Startup",
       achievements: [
         "Engineered MySQL → BigQuery ETL pipeline (DataGrip/SQL) → 60% faster processing",
         "Enabled real-time analytics for 1TB+ datasets",
@@ -131,14 +169,13 @@ const Experience = () => {
       logo: "alfabolt.jpeg", // Replace with actual path
       title: "Software Developer Intern",
       tag: "industry",
+      category: "Startup",
       achievements: ["💻 Webapps + MERN"],
     },
   ];
 
-  const filteredExperiences = experiences.filter((exp) => {
-    if (selectedFilter === "both") return true;
-    return exp.tag === selectedFilter;
-  });
+  // Move state declarations here
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const downloadCV = (type: "academic" | "industry") => {
     const filename =
@@ -149,15 +186,22 @@ const Experience = () => {
     window.open(`${filename}`, "_blank");
   };
 
+  const filteredExperiences = experiences.filter((exp) => {
+    const matchesTag = selectedFilter === "both" || exp.tag === selectedFilter;
+    const matchesCategory =
+      selectedCategory === "all" || exp.category === selectedCategory;
+    return matchesTag && matchesCategory;
+  });
+
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container mx-auto max-w-5xl px-4">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Professional Experience
+            Experience
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
-            Shipping Across Research Labs, Startups, Fortune 500, and Venture
+            Building across Research Labs, Startups, Fortune 500, and Venture
             Capital Funds.
           </p>
 
@@ -169,6 +213,8 @@ const Experience = () => {
                 Filter by:
               </span>
             </div>
+
+            {/* Tag filter
             <Select value={selectedFilter} onValueChange={setSelectedFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Select experience type" />
@@ -178,6 +224,23 @@ const Experience = () => {
                 <SelectItem value="academic">Academic</SelectItem>
                 <SelectItem value="industry">Industry</SelectItem>
               </SelectContent>
+            </Select> */}
+
+            {/* Category filter */}
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="VC">VC</SelectItem>
+                <SelectItem value="Startup">Startup</SelectItem>
+                <SelectItem value="Research Lab">Research Lab</SelectItem>
+                <SelectItem value="Fortune 500">Fortune 500</SelectItem>
+              </SelectContent>
             </Select>
           </div>
 
@@ -185,7 +248,7 @@ const Experience = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 p-6 bg-muted/30 rounded-lg border border-border/50">
             <div className="flex items-center space-x-2 text-foreground">
               <FileText className="h-5 w-5" />
-              <span className="font-medium">Download CV:</span>
+              <span className="font-medium">View:</span>
             </div>
             <div className="flex gap-3">
               <Button
@@ -194,7 +257,7 @@ const Experience = () => {
                 className="bg-background hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Download className="h-4 w-4 mr-2" />
-                Academic CV
+                Full CV
               </Button>
               <Button
                 variant="outline"
@@ -202,7 +265,7 @@ const Experience = () => {
                 className="bg-background hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               >
                 <Briefcase className="h-4 w-4 mr-2" />
-                Industry Resume
+                Short Resume
               </Button>
             </div>
           </div>
@@ -244,15 +307,20 @@ const Experience = () => {
                           <p className="text-primary font-semibold text-lg">
                             {exp.title}
                           </p>
-                          <span
-                            className={`inline-block px-2 py-1 text-xs font-medium rounded-full mt-2 ${
-                              exp.tag === "academic"
-                                ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                                : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            }`}
-                          >
-                            {exp.tag === "academic" ? "Academic" : "Industry"}
-                          </span>
+                          <div className="flex gap-2 mt-2">
+                            <span
+                              className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
+                                exp.tag === "academic"
+                                  ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                                  : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              }`}
+                            >
+                              {exp.tag === "academic" ? "Academic" : "Industry"}
+                            </span>
+                            <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                              {exp.category}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -285,6 +353,4 @@ const Experience = () => {
       </div>
     </div>
   );
-};
-
-export default Experience;
+}

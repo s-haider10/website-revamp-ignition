@@ -112,9 +112,7 @@ const Education = () => {
                       <div>
                         <div className="flex items-center space-x-2 mb-2">
                           <Award className="h-4 w-4 text-primary" />
-                          <span className="font-semibold text-foreground">
-                            Degree
-                          </span>
+                          <span className="font-semibold text-foreground"></span>
                         </div>
                         <p className="text-primary font-medium text-sm sm:text-base">
                           {edu.degree}
