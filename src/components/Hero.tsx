@@ -1,152 +1,139 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NarrativeContent from "./content/Narrative";
-import { useEffect, useRef, useState } from "react";
+import CVDownloadDropdown from "./CVDownloadDropdown";
+import TypingText from "./TypingText";
+import GlowEffect from "./GlowEffect";
+import { useState, useEffect } from "react";
 
 const Hero = () => {
-  const [spacerHeight, setSpacerHeight] = useState("20vh"); // Reduced default
-  const headerRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const calculateSpacerHeight = () => {
-      if (headerRef.current) {
-        const headerHeight = headerRef.current.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        const spaceNeeded = viewportHeight - headerHeight - 200; // Increased buffer to 200px
-
-        // Adjusted limits for tighter spacing
-        const minHeight = 50; // Reduced minimum
-        const maxHeight = 300; // Reduced maximum
-        const height = Math.max(minHeight, Math.min(maxHeight, spaceNeeded));
-
-        setSpacerHeight(`${height}px`);
-      }
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
     };
 
-    calculateSpacerHeight();
-    window.addEventListener("resize", calculateSpacerHeight);
-    return () => window.removeEventListener("resize", calculateSpacerHeight);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    <section className="py-32 px-4 bg-gradient-to-b from-background to-muted/30">
-      {/* Background Cover Photo */}
+    <section className="min-h-[calc(100vh-4rem)] flex items-center py-12 sm:py-16 md:py-24 px-4 sm:px-6 relative overflow-hidden">
+      {/* Animated gradient background */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: "url('/cover_photo.jpg')" }}
-      ></div>
-
-      <div className="container mx-auto max-w-5xl text-center">
+        className="absolute inset-0 opacity-5 pointer-events-none -z-10"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(148, 163, 184, 0.3) 0%, transparent 50%)`,
+        }}
+      />
+      <div className="container mx-auto max-w-4xl relative z-10">
         {/* Header section */}
-        <div ref={headerRef}>
-          {/* Profile Image */}
-          <div className="mb-12 flex justify-center">
-            <div className="relative">
-              <img
-                src="favicon.ico"
-                alt="Syed Ali Haider"
-                className="w-40 h-40 md:w-48 md:h-48 object-cover"
-              />
+        <div className="mb-16">
+          <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-8 mb-8">
+            {/* Profile Photo */}
+            <div className="flex-shrink-0 w-full sm:w-auto">
+              <GlowEffect intensity="medium">
+                <div className="relative group">
+                  <img
+                    src="/favicon.ico"
+                    alt="Syed Ali Haider"
+                    className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover border-2 border-border shadow-sm mx-auto sm:mx-0 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:border-foreground/30"
+                  />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-foreground/0 via-foreground/0 to-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </GlowEffect>
+            </div>
+            <div className="flex-1 w-full">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-foreground leading-tight tracking-tight mb-4">
+                Syed Ali Haider
+              </h1>
+
+              <div className="mb-6 space-y-3">
+                {/* University Logos */}
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <GlowEffect intensity="low">
+                    <img
+                      src="/nyu.png"
+                      alt="NYU"
+                      className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover opacity-90 hover:opacity-100 transition-all duration-300 border-2 border-border/50 hover:border-foreground/30 hover:scale-110"
+                    />
+                  </GlowEffect>
+                  <GlowEffect intensity="low">
+                    <img
+                      src="/dartmouth.jpg"
+                      alt="Dartmouth"
+                      className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover opacity-90 hover:opacity-100 transition-all duration-300 border-2 border-border/50 hover:border-foreground/30 hover:scale-110"
+                    />
+                  </GlowEffect>
+                </div>
+                <div className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed min-h-[1.5rem]">
+                  <TypingText
+                    texts={[
+                      "AI Researcher + Founder",
+                      "Building intelligent systems",
+                      "At the intersection of research & industry",
+                      "Scaling AI from lab to production",
+                    ]}
+                    speed={80}
+                    deleteSpeed={40}
+                    pauseTime={2500}
+                    className="font-medium"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent leading-tight">
-            Syed Ali Haider
-          </h1>
-
-          <div className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-4 space-y-2">
-            {" "}
-            {/* Reduced mb-8 to mb-4 */}
-            <p className="font-mono">NYU '25 → Dartmouth '26</p>
-            <p className="font-normal text-neutral-500 dark:text-neutral-500">
-              <span className="mt-1 text-sm uppercase tracking-widest text-neutral-400">
-                {" "}
-                Explorer | AI Researcher | AI OPS x Infra Engineer
-              </span>
-            </p>
-          </div>
         </div>
 
-        {/* Scroll Down Arrow - Moved inside headerRef and reduced spacing */}
-        <div className="mb-8 flex justify-center">
-          {" "}
-          {/* Reduced mb-12 to mb-8 */}
-          <div className="relative animate-pulse">
-            <img
-              src="arrows.svg"
-              alt="Scroll Down"
-              className="w-40 h-40 md:w-28 md:h-28 object-cover" // Reduced size
-            />
-          </div>
+        {/* Narrative Content */}
+        <div className="mb-16 prose prose-sm sm:prose-base md:prose-lg max-w-none prose-p:text-foreground prose-p:leading-relaxed prose-p:mb-4 prose-strong:text-foreground prose-a:text-foreground prose-a:underline prose-a:decoration-foreground/30 hover:prose-a:decoration-foreground/60">
+          <NarrativeContent />
         </div>
 
-        {/* Dynamic spacer with reduced height */}
-        <div style={{ height: spacerHeight }} className="w-full"></div>
-
-        {/* Narrative Content and everything below */}
-        <div>
-          <p className="max-w-4xl mx-auto text-justify mb-16 text-lg leading-relaxed text-muted-foreground">
-            <NarrativeContent />
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap gap-3 sm:gap-4 mb-16 sm:mb-20">
+          <GlowEffect intensity="medium">
             <Button
               size="lg"
-              className="rounded-full px-8 py-4 text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="rounded-sm px-5 sm:px-6 py-3 text-sm sm:text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 min-h-[44px] flex-1 sm:flex-initial min-w-[140px] hover:scale-105"
               asChild
             >
               <Link to="/projects">
-                Explore Projects
-                <ArrowRight className="ml-2 h-5 w-5" />
+                Research & Projects
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
+          </GlowEffect>
 
+          <GlowEffect intensity="low">
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full px-8 py-4 text-lg font-medium border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary"
+              className="rounded-sm px-5 sm:px-6 py-3 text-sm sm:text-base font-medium border border-border hover:bg-muted transition-all duration-300 min-h-[44px] flex-1 sm:flex-initial min-w-[120px] hover:scale-105"
               asChild
             >
-              <Link to="/experience">
-                View Experience
-                <FileText className="ml-2 h-5 w-5" />
-              </Link>
+              <Link to="/experience">Experience</Link>
             </Button>
+          </GlowEffect>
 
+          <GlowEffect intensity="low">
             <Button
+              variant="outline"
               size="lg"
-              className="rounded-full px-8 py-4 text-lg font-medium  hover:bg-primary hover:text-primary-foreground hover:border-primary"
+              className="rounded-sm px-5 sm:px-6 py-3 text-sm sm:text-base font-medium border-2 border-border hover:bg-muted transition-all duration-300 min-h-[44px] flex-1 sm:flex-initial min-w-[100px] hover:scale-105"
               asChild
             >
-              <Link to="/blog">
-                Read Blog
-                <FileText className="ml-2 h-5 w-5" />
-              </Link>
+              <Link to="/blog">Writing</Link>
             </Button>
-          </div>
+          </GlowEffect>
 
-          {/* Quick stats */}
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">10+</div>
-              <div className="text-muted-foreground font-medium">Projects</div>
-            </div>
-
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">5</div>
-              <div className="text-muted-foreground font-medium">
-                Industry Internships
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">4</div>
-              <div className="text-muted-foreground font-medium">
-                Research Papers
-              </div>
-            </div>
+          <div className="w-full sm:w-auto">
+            <CVDownloadDropdown />
           </div>
         </div>
       </div>

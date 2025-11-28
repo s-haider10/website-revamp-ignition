@@ -38,46 +38,30 @@ const Blog = () => {
   const maxCount = Math.max(...Object.values(tagCounts));
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-24">
       <div className="container mx-auto max-w-6xl px-4">
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold mb-4 text-center bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Logs & Learnings
+        <div className="mb-16">
+          <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-4 text-foreground">
+            Writing
           </h1>
-          <p className="text-xl text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed">
-            Build → Break → Learn
+          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            Thoughts on research, engineering, and building at the intersection
+            of AI and infrastructure.
           </p>
-        </div>
-
-        {/* Tag Visualization */}
-        <div className="mb-8 p-6 bg-muted/20 rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">Topics</h3>
-          <div className="flex flex-wrap gap-3">
-            {Object.entries(tagCounts).map(([tag, count]) => {
-              const intensity = (count / maxCount) * 100;
-              return (
-                <div
-                  key={tag}
-                  className="flex items-center space-x-2 cursor-pointer"
-                  onClick={() => setSelectedTag(tag)}
-                >
-                  <div
-                    className="w-4 h-4 rounded-full bg-primary"
-                    style={{ opacity: intensity / 100 }}
-                  />
-                  <span className="text-sm">
-                    {tag} ({count})
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          {filteredPosts.length === 0 && (
+            <div className="mt-8 p-6 bg-muted/30 rounded-sm border border-border">
+              <p className="text-muted-foreground">
+                More articles coming soon. Check back for insights on AI
+                research, startup engineering, and deep tech.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Filter Dropdown */}
-        <div className="flex justify-center mb-16">
+        <div className="flex justify-start mb-12">
           <Select value={selectedTag} onValueChange={setSelectedTag}>
-            <SelectTrigger className="w-64">
+            <SelectTrigger className="w-48 rounded-sm">
               <SelectValue placeholder="Filter by tag" />
             </SelectTrigger>
             <SelectContent>
@@ -95,31 +79,27 @@ const Blog = () => {
           {filteredPosts.map((post) => (
             <Card
               key={post.id}
-              className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/20"
+              className="group overflow-hidden hover:shadow-lg transition-smooth cursor-pointer border-border hover:border-foreground/20"
               onClick={() => navigate(`/blog/${post.slug}`)}
             >
-              <div className="aspect-video overflow-hidden">
+              <div className="aspect-video overflow-hidden bg-muted">
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
                 />
               </div>
               <CardHeader className="pb-3">
-                <CardTitle className="text-xl font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                <CardTitle className="text-lg font-serif font-semibold group-hover:text-foreground transition-smooth line-clamp-2">
                   {post.title}
                 </CardTitle>
-                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-2">
                   <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1" />
-                    {post.author.name}
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1" />
+                    <Calendar className="h-3 w-3 mr-1" />
                     {new Date(post.date).toLocaleDateString()}
                   </div>
                   <div className="flex items-center">
-                    <Clock className="h-4 w-4 mr-1" />
+                    <Clock className="h-3 w-3 mr-1" />
                     {post.readTime}
                   </div>
                 </div>
@@ -130,12 +110,16 @@ const Blog = () => {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.slice(0, 3).map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="text-xs rounded-sm"
+                    >
                       {tag}
                     </Badge>
                   ))}
                   {post.tags.length > 3 && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs rounded-sm">
                       +{post.tags.length - 3}
                     </Badge>
                   )}

@@ -1,66 +1,60 @@
 // src/components/content/Narrative.tsx
-import { Link } from "react-router-dom"; // Changed from next/link
 
 export default function NarrativeContent() {
   return (
-    <div className="prose dark:prose-invert max-w-none">
-      <p className="mb-4">
-        Hi, I'm a senior at <strong>NYU</strong> studying and building
-        intelligent systems.
+    <div className="space-y-5 sm:space-y-6 text-sm sm:text-base leading-relaxed text-foreground">
+      <p>
+        I'm an <strong className="font-semibold">AI researcher</strong> and <strong className="font-semibold">founder</strong> building intelligent systems at the intersection of machine learning, 
+        human-computer interaction, and infrastructure. Currently a senior at <strong className="font-semibold">NYU</strong> with 
+        research spanning <strong className="font-semibold">recommendation systems, computer vision, NLP, and quantum computing</strong>.
       </p>
 
-      <p className="mb-4">
-        Along the way, I've had the privilege of learning from and working with
-        incredible mentors, including{" "}
+      <p>
+        My research is guided by mentors including{" "}
         <a
           href="https://whongyi.github.io/"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium text-primary hover:underline"
+          className="text-foreground underline underline-offset-2 hover:no-underline transition-smooth decoration-foreground/40 hover:decoration-foreground/60"
         >
           Prof. Hongyi Wen
         </a>
-        ,{" "}
+        {" "}(NYU MAPS Lab),{" "}
         <a
           href="https://www.di.ens.fr/~ponce/"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium text-primary hover:underline"
+          className="text-foreground underline underline-offset-2 hover:no-underline transition-smooth decoration-foreground/40 hover:decoration-foreground/60"
         >
           Prof. Jean Ponce
         </a>
-        , and{" "}
+        {" "}(ENS Paris), and{" "}
         <a
           href="https://www.umarsaif.org/"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium text-primary hover:underline"
+          className="text-foreground underline underline-offset-2 hover:no-underline transition-smooth decoration-foreground/40 hover:decoration-foreground/60"
         >
           Dr. Umar Saif
         </a>
-        . Their guidance has shaped my research interests and approach to
-        solving challenging problems.
+        . I've published research on multimodal learning systems and quantum game theory, 
+        with work appearing at top-tier venues.
       </p>
 
-      <p className="mb-4">
-        My journey so far has been about exploring how systems can learn and
-        adapt, just like we do. I've worked on exciting projects in areas like{" "}
-        <strong>recommendation systems, computer vision, and NLP</strong>,
-        always aiming to make technology more intuitive and accessible.
-      </p>
-
-      <p className="mb-4">
-        On the side I've been exploring the intersection of{" "}
-        <strong>quantum technologies</strong> and computation, exploring their
-        potential under the mentorship of{" "}
+      <p>
+        As a <strong className="font-semibold">founder</strong>, I've built production ML systems at VC-backed startups and Fortune 500 companies, 
+        scaling recommendation engines and deploying real-time inference infrastructure. 
+        Currently building AI/ML systems at a VC-backed startup (Gobi Partners portfolio) and contributing to 
+        quantum computing research under{" "}
         <a
           href="https://shanghai.nyu.edu/academics/faculty/directory/tim-byrnes"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium text-primary hover:underline"
+          className="text-foreground underline underline-offset-2 hover:no-underline transition-smooth decoration-foreground/40 hover:decoration-foreground/60"
         >
           Prof. Tim Byrnes
         </a>
+        . Bridging the gap between cutting-edge research and scalable production systems.
       </p>
     </div>
   );
